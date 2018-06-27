@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_detail"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/navigation_detail" />
+    <item
+        android:id="@+id/navigation_table"
+        android:icon="@drawable/ic_call_missed_outgoing_black_24dp"
+        android:title="@string/navigation_table" />
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_add_circle_black_24dp"
+        android:title="@string/navigation_add" />
+    <item
+        android:id="@+id/navigation_deal"
+        android:icon="@drawable/ic_access_time_black_24dp"
+        android:title="@string/navigation_deal" />
+
+    <item
+        android:id="@+id/navigation_self"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/navigation_self" />
+</menu>
