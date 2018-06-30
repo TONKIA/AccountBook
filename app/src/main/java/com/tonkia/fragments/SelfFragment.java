@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.tonkia.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SelfFragment extends Fragment {
 
 

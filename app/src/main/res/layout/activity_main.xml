@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <fragment
             android:id="@+id/fragment_content"
@@ -18,13 +15,15 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
+
+    <com.luseen.spacenavigation.SpaceNavigationView
+        android:id="@+id/space"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/menu_navigation">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:active_item_color="@color/colorAccent"
+        app:centre_button_color="@color/colorAccent"
+        app:inactive_item_color="@color/inactiveColor"
+        app:space_background_color="@color/colorPrimaryDark"></com.luseen.spacenavigation.SpaceNavigationView>
 
-    </android.support.design.widget.BottomNavigationView>
-
-</LinearLayout>
+</FrameLayout>

@@ -1,98 +1,125 @@
 package com.tonkia;
 
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.tonkia.fragments.AddFragment;
+import com.luseen.spacenavigation.SpaceItem;
+import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
+import com.luseen.spacenavigation.SpaceOnLongClickListener;
 import com.tonkia.fragments.DealFragment;
 import com.tonkia.fragments.DetailFragment;
 import com.tonkia.fragments.SelfFragment;
 import com.tonkia.fragments.TableFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView bnv;
-    private FragmentManager fragmentManager;
+
+    private SpaceNavigationView spaceNavigationView;
     //Fragment
+    private FragmentManager fragmentManager;
     private Fragment from;
-    private AddFragment addFragment;
     private DealFragment dealFragment;
     private DetailFragment detailFragment;
     private SelfFragment selfFragment;
     private TableFragment tableFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
-    }
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            switch (menuItem.getItemId()) {
-                case R.id.navigation_detail:
-                    replaceFragment(dealFragment, transaction);
-                    return true;
-                case R.id.navigation_table:
-                    if (tableFragment == null) {
-                        tableFragment = new TableFragment();
-                        transaction.add(R.id.mainContent, tableFragment);
-                    }
-                    replaceFragment(tableFragment, transaction);
-                    return true;
-                case R.id.navigation_add:
-                    if (addFragment == null) {
-                        addFragment = new AddFragment();
-                        transaction.add(R.id.mainContent, addFragment);
-                    }
-                    replaceFragment(addFragment, transaction);
-                    return true;
-                case R.id.navigation_deal:
-                    if (dealFragment == null) {
-                        dealFragment = new DealFragment();
-                        transaction.add(R.id.mainContent, dealFragment);
-                    }
-                    replaceFragment(dealFragment, transaction);
-                    return true;
-                case R.id.navigation_self:
-                    if (selfFragment == null) {
-                        selfFragment = new SelfFragment();
-                        transaction.add(R.id.mainContent, selfFragment);
-                    }
-                    replaceFragment(selfFragment, transaction);
-                    return true;
-            }
-            return false;
-        }
-    };
-
-    //切换Fragment
-    private void replaceFragment(Fragment to, FragmentTransaction transaction) {
-        System.out.println(to + "**********");
-        transaction.hide(from).show(to).commit();
-        from = to;
-    }
-
-    private void init() {
-        //处理底部菜单
-        bnv = findViewById(R.id.navigation);
-        bnv.setOnNavigationItemSelectedListener(mListener);
-
         //处理Fragment的切换
         fragmentManager = getSupportFragmentManager();
         //初始打开的Fragment
         from = fragmentManager.findFragmentById(R.id.fragment_content);
         detailFragment = (DetailFragment) from;
+        //init bottomNavigation
+        spaceNavigationView = findViewById(R.id.space);
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.navigation_detail), R.drawable.ic_event_note_black_24dp));
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.navigation_table), R.drawable.ic_call_missed_outgoing_black_24dp));
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.navigation_deal), R.drawable.ic_access_time_black_24dp));
+        spaceNavigationView.addSpaceItem(new SpaceItem(getString(R.string.navigation_self), R.drawable.ic_person_black_24dp));
+        //设置点击/长按监听
+        spaceNavigationView.setSpaceOnClickListener(new MySpaceOnClickListener());
+        spaceNavigationView.setSpaceOnLongClickListener(new MySpaceOnLongClickListener());
+        //设置中间button的颜色
+        spaceNavigationView.setCentreButtonRippleColor(ContextCompat.getColor(this, R.color.centerBtnClick));
+        //只显示ICON
+        spaceNavigationView.showIconOnly();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        spaceNavigationView.onSaveInstanceState(outState);
+    }
+
+    private class MySpaceOnClickListener implements SpaceOnClickListener {
+        @Override
+        public void onCentreButtonClick() {
+            Intent i = new Intent(MainActivity.this, AddActivity.class);
+            startActivity(i);
+        }
+
+        @Override
+        public void onItemClick(int itemIndex, String itemName) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            switch (itemIndex) {
+                case 0:
+                    replaceFragment(detailFragment, transaction);
+                    break;
+                case 1:
+                    if (tableFragment == null) {
+                        tableFragment = new TableFragment();
+                        transaction.add(R.id.mainContent, tableFragment);
+                    }
+                    replaceFragment(tableFragment, transaction);
+                    break;
+                case 2:
+                    if (dealFragment == null) {
+                        dealFragment = new DealFragment();
+                        transaction.add(R.id.mainContent, dealFragment);
+                    }
+                    replaceFragment(dealFragment, transaction);
+                    break;
+                case 3:
+                    if (selfFragment == null) {
+                        selfFragment = new SelfFragment();
+                        transaction.add(R.id.mainContent, selfFragment);
+                    }
+                    replaceFragment(selfFragment, transaction);
+                    break;
+            }
+        }
+
+        @Override
+        public void onItemReselected(int itemIndex, String itemName) {
+
+        }
+    }
+
+    private class MySpaceOnLongClickListener implements SpaceOnLongClickListener {
+        @Override
+        public void onCentreButtonLongClick() {
+            Toast.makeText(MainActivity.this, "long click", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onItemLongClick(int itemIndex, String itemName) {
+
+        }
+    }
+
+    //切换Fragment
+    private void replaceFragment(Fragment to, FragmentTransaction transaction) {
+        transaction.hide(from).show(to).commit();
+        from = to;
+    }
+
 }
