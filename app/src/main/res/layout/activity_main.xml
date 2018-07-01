@@ -6,7 +6,8 @@
     <FrameLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/view_bottom_margin">
 
         <fragment
             android:id="@+id/fragment_content"
