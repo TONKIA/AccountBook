@@ -41,18 +41,21 @@
         android:padding="10dp">
 
         <LinearLayout
+            android:id="@+id/btn_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2018年" />
 
             <TextView
+                android:id="@+id/tv_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -81,6 +84,7 @@
                 android:text="收入（元）" />
 
             <TextView
+                android:id="@+id/tv_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -101,6 +105,7 @@
                 android:text="支出（元）" />
 
             <TextView
+                android:id="@+id/tv_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -121,6 +126,7 @@
                 android:text="结余（元）" />
 
             <TextView
+                android:id="@+id/tv_balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

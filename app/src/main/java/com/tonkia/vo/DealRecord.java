@@ -3,21 +3,29 @@ package com.tonkia.vo;
 
 import org.litepal.crud.LitePalSupport;
 
-import java.util.Date;
-
 public class DealRecord extends LitePalSupport {
-    private DealItem item;
+
+    private int id;
     private float cost;
     private long time;
     private String itemName;
+    private int type;
     private String desc;
 
-    public DealItem getItem() {
-        return item;
+    public int getId() {
+        return id;
     }
 
-    public void setItem(DealItem item) {
-        this.item = item;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public float getCost() {

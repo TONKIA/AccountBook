@@ -2,6 +2,7 @@ package com.tonkia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,10 @@ import com.tonkia.fragments.DealFragment;
 import com.tonkia.fragments.DetailFragment;
 import com.tonkia.fragments.SelfFragment;
 import com.tonkia.fragments.TableFragment;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCentreButtonClick() {
             Intent i = new Intent(MainActivity.this, AddActivity.class);
-            startActivity(i);
+            startActivityForResult(i, 0);
         }
 
         @Override
@@ -122,4 +127,27 @@ public class MainActivity extends AppCompatActivity {
         from = to;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //添加record后返回
+        if (resultCode == 1) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            replaceFragment(detailFragment, transaction);
+            detailFragment.init();
+            //反射大法好  厉害厉害  哈哈哈哈哈哈哈哈
+            try {
+                Method method = SpaceNavigationView.class.getDeclaredMethod("updateSpaceItems", int.class);
+                method.setAccessible(true);
+                method.invoke(spaceNavigationView, 0);
+                System.out.println(method);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

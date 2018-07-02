@@ -104,8 +104,6 @@ public class AddActivity extends AppCompatActivity {
                         bd.dismiss();
                     }
                 });
-
-
             }
         }).setLayoutRes(R.layout.dialog_add_item).setDimAmount(0.5f).setCancelOutside(true).setTag("AddItemDialog");
         bd.show();
@@ -119,7 +117,6 @@ public class AddActivity extends AppCompatActivity {
             InputFragment inputFragment = (InputFragment) myViewPagerAdapter.getItem(1);
             inputFragment.initList();
         }
-
     }
 
 }

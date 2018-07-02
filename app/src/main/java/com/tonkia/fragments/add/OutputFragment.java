@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tonkia.AddActivity;
 import com.tonkia.R;
+import com.tonkia.utils.EditTextUtils;
 import com.tonkia.view.StateButton;
 import com.tonkia.vo.DealItem;
 import com.tonkia.vo.DealRecord;
@@ -142,6 +144,7 @@ public class OutputFragment extends Fragment {
                 TextView tv = v.findViewById(R.id.title);
                 final EditText edDesc = v.findViewById(R.id.ed_desc);
                 final EditText edCost = v.findViewById(R.id.ed_cost);
+                EditTextUtils.setPoint(edCost);
                 Button btnOK = v.findViewById(R.id.btn_ok);
                 Button btnCancel = v.findViewById((R.id.btn_cancel));
                 tv.setText("<" + itemList.get(i).getItemName() + ">消费：");
@@ -160,11 +163,12 @@ public class OutputFragment extends Fragment {
                         }
                         DealRecord dr = new DealRecord();
                         dr.setCost(cost);
-                        dr.setItem(itemList.get(i));
                         dr.setItemName(itemList.get(i).getItemName());
                         dr.setDesc(desc);
                         dr.setTime(System.currentTimeMillis());
+                        dr.setType(itemList.get(i).getType());
                         dr.save();
+                        getActivity().setResult(1);
                         getActivity().finish();
                         //最后应该调转到MainActivity下Detail
                     }

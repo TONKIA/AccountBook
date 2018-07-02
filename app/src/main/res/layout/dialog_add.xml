@@ -16,12 +16,14 @@
         android:id="@+id/ed_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="写点什么吧"
         android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/ed_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="$0"
         android:inputType="numberDecimal"
         android:textColor="@color/colorPrimaryDark" />
 
