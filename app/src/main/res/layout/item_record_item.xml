@@ -32,13 +32,15 @@
             android:id="@+id/tv_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DOTA" />
+            android:text="DOTA"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="跳刀" />
+            android:text="跳刀"
+            android:textSize="12sp" />
 
 
     </LinearLayout>

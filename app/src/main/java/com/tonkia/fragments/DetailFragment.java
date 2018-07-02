@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tonkia.R;
 import com.tonkia.vo.DayContent;
@@ -122,13 +121,13 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         tvYear.setText(year + "年");
         tvMonth.setText(month + 1 + "月 ▼");
         mList = LitePal.where("time>=? and time<?", "" + dStart.getTime().getTime(), "" + dEnd.getTime().getTime()).find(DealRecord.class);
+        Collections.reverse(mList);
         dayContents.clear();
         viewTypes.clear();
         calculate();
-        tvInput.setText(input + "");
-        tvOutput.setText(output + "");
-        tvBalance.setText((input - output) + "");
-        Collections.reverse(mList);
+        tvInput.setText(String.format("%.2f", input));
+        tvOutput.setText(String.format("%.2f", output));
+        tvBalance.setText(String.format("%.2f", (input - output)));
         myAdapter.notifyDataSetChanged();
     }
 
@@ -158,7 +157,7 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
                 viewTypes.add(new ViewType(ViewType.TYPE_TITLE, title));
                 title++;
             } else {
-                DayContent dc = dayContents.peek();
+                DayContent dc = dayContents.peekLast();
                 if (dr.getType() == DealItem.INPUT) {
                     dc.setInput(dc.getInput() + dr.getCost());
                     input += dr.getCost();
@@ -209,8 +208,8 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
                 StringBuffer sb = new StringBuffer();
                 float output = dayContents.get(i).getOutput();
                 float input = dayContents.get(i).getInput();
-                sb.append(output <= 0 ? "" : "支出：" + output);
-                sb.append(input <= 0 ? "" : "     收入：" + input);
+                sb.append(output <= 0 ? "" : "支出：" + String.format("%.2f", output));
+                sb.append(input <= 0 ? "" : "     收入：" + String.format("%.2f", input));
                 myHolder.tvDetail.setText(sb.toString());
             }
         }
