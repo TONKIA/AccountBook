@@ -115,7 +115,7 @@ public class OutputFragment extends Fragment {
             @Override
             public void bindView(View v) {
                 TextView tv = v.findViewById(R.id.title);
-                Button btnDel = v.findViewById(R.id.btn_del);
+                Button btnDel = v.findViewById(R.id.btn_ok);
                 Button btnCancel = v.findViewById((R.id.btn_cancel));
                 tv.setText("你确定要删除<" + itemList.get(i).getItemName() + ">这条支出项吗？");
                 btnDel.setOnClickListener(new View.OnClickListener() {
@@ -145,9 +145,9 @@ public class OutputFragment extends Fragment {
                 final EditText edDesc = v.findViewById(R.id.ed_desc);
                 final EditText edCost = v.findViewById(R.id.ed_cost);
                 EditTextUtils.setPoint(edCost);
-                Button btnOK = v.findViewById(R.id.btn_ok);
-                Button btnCancel = v.findViewById((R.id.btn_cancel));
-                tv.setText("<" + itemList.get(i).getItemName() + ">消费：");
+                StateButton btnOK = v.findViewById(R.id.btn_ok);
+                StateButton btnCancel = v.findViewById((R.id.btn_cancel));
+                tv.setText(itemList.get(i).getItemName() + "消费");
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

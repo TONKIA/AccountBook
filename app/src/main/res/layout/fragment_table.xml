@@ -33,9 +33,5 @@
             android:background="@null" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/navigation_table" />
 
 </LinearLayout>

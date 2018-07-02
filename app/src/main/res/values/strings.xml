@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_detail">明细</string>
-    <string name="navigation_table">报表</string>
+    <string name="navigation_table">支出报表</string>
     <string name="navigation_add">记账</string>
     <string name="navigation_deal">处理</string>
     <string name="navigation_self">我的</string>

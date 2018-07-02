@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.tonkia.fragments.add.InputFragment;
 import com.tonkia.fragments.add.OutputFragment;
+import com.tonkia.view.StateButton;
 import com.tonkia.vo.DealItem;
 
 import me.shaohui.bottomdialog.BottomDialog;
@@ -78,8 +79,8 @@ public class AddActivity extends AppCompatActivity {
                 final int type = tabLayout.getSelectedTabPosition();
                 TextView tv = v.findViewById(R.id.title);
                 final EditText et = v.findViewById(R.id.name);
-                Button btnOk = v.findViewById(R.id.btn_ok);
-                Button btnCancel = v.findViewById(R.id.btn_cancel);
+                StateButton btnOk = v.findViewById(R.id.btn_ok);
+                StateButton btnCancel = v.findViewById(R.id.btn_cancel);
                 String title = type == 0 ? "添加支出项" : "添加收入项";
                 tv.setText(title);
                 //添加

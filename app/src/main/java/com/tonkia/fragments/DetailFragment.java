@@ -28,7 +28,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DetailFragment extends Fragment {
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
+
+public class DetailFragment extends Fragment implements OnDateSetListener {
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     private SimpleDateFormat sdfDay = new SimpleDateFormat("dd日 E");
 
@@ -49,6 +53,8 @@ public class DetailFragment extends Fragment {
     //划分
     private LinkedList<DayContent> dayContents;
     private LinkedList<ViewType> viewTypes;
+
+    private TimePickerDialog mDialogYearMonth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,23 +81,33 @@ public class DetailFragment extends Fragment {
         dayContents = new LinkedList<>();
         viewTypes = new LinkedList<>();
 
+
+        mDialogYearMonth = new TimePickerDialog.Builder().setTitleStringId("选择时间").setType(Type.YEAR_MONTH).setThemeColor(getResources().getColor(R.color.colorPrimaryDark)).setCallBack(this).build();
+
         init();
         return view;
+    }
+
+    @Override
+    public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millseconds);
+        setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
     }
 
 
     class MyOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            Toast.makeText(getContext(), "修改日期", Toast.LENGTH_SHORT).show();
-            setDate(2018, month);
+            mDialogYearMonth.show(getChildFragmentManager(), "year_month");
+
         }
     }
 
     private void setDate(int year, int month) {
         this.year = year;
         //0-11
-        this.month = month - 1;
+        this.month = month;
         init();
     }
 
