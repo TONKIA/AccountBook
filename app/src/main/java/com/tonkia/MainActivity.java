@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             detailFragment.setDate(year, month);
+            tableFragment.freshChart();
             //反射大法好  厉害厉害  哈哈哈哈哈哈哈哈
             try {
                 Method method = SpaceNavigationView.class.getDeclaredMethod("updateSpaceItems", int.class);

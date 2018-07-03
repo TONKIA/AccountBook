@@ -3,6 +3,8 @@ package com.tonkia.vo;
 
 import org.litepal.crud.LitePalSupport;
 
+import java.util.Calendar;
+
 public class DealRecord extends LitePalSupport {
 
     private int id;
@@ -58,5 +60,62 @@ public class DealRecord extends LitePalSupport {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    private int year;
+    private int month;
+    private int week;
+    private int dayOfWeek;
+    private int dayOfMonth;
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
+    }
+
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public int getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public void setDayOfMonth(int dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+
+    public void initTime() {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        week = c.get(Calendar.WEEK_OF_YEAR);
+        dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        System.out.println(year + ":" + month + ":" + week + ":" + dayOfWeek + ":" + dayOfMonth);
     }
 }

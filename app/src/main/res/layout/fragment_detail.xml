@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="7月"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2018"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -111,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2018"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -133,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2018"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

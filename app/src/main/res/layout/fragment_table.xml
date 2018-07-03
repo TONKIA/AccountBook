@@ -33,5 +33,57 @@
             android:background="@null" />
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/titleColor"
+                android:padding="10dp"
+                android:text="周支出报表"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/week_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/titleColor"
+                android:padding="10dp"
+                android:text="月支出报表"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/month_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/titleColor"
+                android:padding="10dp"
+                android:text="年支出报表"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/year_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="20dp"
+                android:padding="10dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

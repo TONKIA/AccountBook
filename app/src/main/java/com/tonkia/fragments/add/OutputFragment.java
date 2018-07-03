@@ -167,6 +167,7 @@ public class OutputFragment extends Fragment {
                         dr.setDesc(desc);
                         dr.setTime(System.currentTimeMillis());
                         dr.setType(itemList.get(i).getType());
+                        dr.initTime();
                         dr.save();
                         getActivity().setResult(1);
                         getActivity().finish();

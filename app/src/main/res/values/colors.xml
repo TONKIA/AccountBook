@@ -6,5 +6,8 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#ffffff</color>
     <color name="inactiveColor">#a1a1a1</color>
+    <color name="lineColor">#606060</color>
+    <color name="pointColor">#263e5c</color>
     <color name="titleColor">#dfdfdf</color>
+    <color name="activityColor">#fafafa</color>
 </resources>

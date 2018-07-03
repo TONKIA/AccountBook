@@ -129,7 +129,7 @@
             android:layout_marginTop="2px"
             android:layout_marginRight="1px"
             android:layout_weight="1"
-            android:background="#fafafa"
+            android:background="@color/activityColor"
             android:onClick="update"
             android:text="编辑" />
 
@@ -139,7 +139,7 @@
             android:layout_marginLeft="1px"
             android:layout_marginTop="2px"
             android:layout_weight="1"
-            android:background="#fafafa"
+            android:background="@color/activityColor"
             android:onClick="delete"
             android:text="删除" />
     </LinearLayout>
