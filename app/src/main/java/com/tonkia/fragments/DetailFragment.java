@@ -1,6 +1,7 @@
 package com.tonkia.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tonkia.R;
+import com.tonkia.UpdateActivity;
 import com.tonkia.vo.DayContent;
 import com.tonkia.vo.DealItem;
 import com.tonkia.vo.DealRecord;
@@ -103,7 +106,7 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         }
     }
 
-    private void setDate(int year, int month) {
+    public void setDate(int year, int month) {
         this.year = year;
         //0-11
         this.month = month;
@@ -112,7 +115,7 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
 
 
     //初始化 和 刷新
-    public void init() {
+    private void init() {
         Calendar dStart = Calendar.getInstance();
         dStart.set(year, month, 1, 0, 0, 0);
         Calendar dEnd = Calendar.getInstance();
@@ -128,7 +131,9 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         tvInput.setText(String.format("%.2f", input));
         tvOutput.setText(String.format("%.2f", output));
         tvBalance.setText(String.format("%.2f", (input - output)));
+        //刷新recycleview
         myAdapter.notifyDataSetChanged();
+        recyclerView.scrollToPosition(0);
     }
 
     private void calculate() {
@@ -191,16 +196,26 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             if (viewHolder instanceof MyItemHolder) {
                 //下标转换
-                i = viewTypes.get(i).index;
+                final int ii = viewTypes.get(i).index;
                 MyItemHolder myHolder = (MyItemHolder) viewHolder;
-                myHolder.tvTime.setText(sdf.format(new Date(mList.get(i).getTime())));
+                myHolder.tvTime.setText(sdf.format(new Date(mList.get(ii).getTime())));
                 //  System.out.println(mList.get(i).getId());
-                if (mList.get(i).getType() == DealItem.OUTPUT)
-                    myHolder.tvCost.setText(String.format("-%.2f", mList.get(i).getCost()));
+                if (mList.get(ii).getType() == DealItem.OUTPUT)
+                    myHolder.tvCost.setText(String.format("-%.2f", mList.get(ii).getCost()));
                 else
-                    myHolder.tvCost.setText(String.format("%.2f", mList.get(i).getCost()));
-                myHolder.tvItem.setText(mList.get(i).getItemName());
-                myHolder.tvDesc.setText(mList.get(i).getDesc());
+                    myHolder.tvCost.setText(String.format("%.2f", mList.get(ii).getCost()));
+                myHolder.tvItem.setText(mList.get(ii).getItemName());
+                myHolder.tvDesc.setText(mList.get(ii).getDesc());
+                //点击记录进入修改页
+                myHolder.whole.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), UpdateActivity.class);
+
+                        intent.putExtra("id", mList.get(ii).getId());
+                        startActivityForResult(intent, 0);
+                    }
+                });
             } else {
                 i = viewTypes.get(i).index;
                 MyTitleHolder myHolder = (MyTitleHolder) viewHolder;
@@ -229,6 +244,7 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
             public TextView tvCost;
             public TextView tvItem;
             public TextView tvDesc;
+            public LinearLayout whole;
 
             public MyItemHolder(@NonNull View itemView) {
                 super(itemView);
@@ -236,6 +252,7 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
                 tvCost = itemView.findViewById(R.id.tv_cost);
                 tvItem = itemView.findViewById(R.id.tv_item);
                 tvDesc = itemView.findViewById(R.id.tv_desc);
+                whole = itemView.findViewById(R.id.whole);
             }
         }
 

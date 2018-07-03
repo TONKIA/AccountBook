@@ -21,6 +21,7 @@ import com.tonkia.fragments.TableFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -134,7 +135,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == 1) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             replaceFragment(detailFragment, transaction);
-            detailFragment.init();
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            detailFragment.setDate(year, month);
             //反射大法好  厉害厉害  哈哈哈哈哈哈哈哈
             try {
                 Method method = SpaceNavigationView.class.getDeclaredMethod("updateSpaceItems", int.class);
