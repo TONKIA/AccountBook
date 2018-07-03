@@ -38,5 +38,6 @@ dependencies {
 
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
 
+    implementation 'com.carlos.voiceline:mylibrary:1.0.6'
 
 }
