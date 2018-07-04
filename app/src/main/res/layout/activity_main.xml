@@ -27,4 +27,22 @@
         app:inactive_item_color="@color/inactiveColor"
         app:space_background_color="@color/colorPrimaryDark"></com.luseen.spacenavigation.SpaceNavigationView>
 
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_bottom_margin"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:id="@+id/badge"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@null"
+            app:layout_heightPercent="96%"
+            app:layout_marginLeftPercent="60%"
+            app:layout_marginTopPercent="4%"
+            app:layout_widthPercent="18%"></ImageView>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
 </FrameLayout>

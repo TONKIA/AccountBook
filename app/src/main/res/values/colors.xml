@@ -10,4 +10,6 @@
     <color name="pointColor">#263e5c</color>
     <color name="titleColor">#dfdfdf</color>
     <color name="activityColor">#fafafa</color>
+    <color name="cardColor">#eaeaea</color>
+    <color name="cardHeadColor">#cacaca</color>
 </resources>

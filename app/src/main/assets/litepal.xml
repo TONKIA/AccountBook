@@ -16,6 +16,7 @@
     <list>
         <mapping class="com.tonkia.vo.DealItem"></mapping>
         <mapping class="com.tonkia.vo.DealRecord"></mapping>
+        <mapping class="com.tonkia.vo.AudioInfo"></mapping>
     </list>
 
     <!--

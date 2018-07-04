@@ -102,15 +102,17 @@ public class AudioRecoderUtils {
             filePath = "";
 
         } catch (RuntimeException e) {
-            mMediaRecorder.reset();
-            mMediaRecorder.release();
-            mMediaRecorder = null;
+e.printStackTrace();
+//            mMediaRecorder.reset();
+//            mMediaRecorder.release();
+//            mMediaRecorder = null;
+//
+//            File file = new File(filePath);
+//            if (file.exists())
+//                file.delete();
+//
+//            filePath = "";
 
-            File file = new File(filePath);
-            if (file.exists())
-                file.delete();
-
-            filePath = "";
 
         }
         return endTime - startTime;
