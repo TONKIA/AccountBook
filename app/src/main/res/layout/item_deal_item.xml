@@ -30,15 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:animationDuration="100"
-        app:normalBackgroundColor="@color/colorPrimaryDark"
+        app:normalBackgroundColor="@color/colorProgress"
         app:normalStrokeColor="@color/cardHeadColor"
-        app:normalStrokeWidth="8dp"
+        app:normalStrokeWidth="6dp"
         app:normalTextColor="@color/colorAccent"
-        app:pressedBackgroundColor="@color/pressedColor"
-        app:pressedStrokeColor="@color/cardHeadColor"
-        app:pressedStrokeWidth="8dp"
+        app:pressedBackgroundColor="@color/colorProgress"
+        app:pressedStrokeWidth="6dp"
         app:pressedTextColor="@color/colorPrimary"
-        app:radius="10dp" />
+        app:radius="8dp" />
 
 
 </LinearLayout>

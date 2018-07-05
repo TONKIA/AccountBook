@@ -35,11 +35,9 @@ public class AddActivity extends AppCompatActivity {
         viewPager.setAdapter(myViewPagerAdapter);
         //设置viewpager和tablayout联动
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private class MyViewPagerAdapter extends FragmentPagerAdapter {
-
         private final String[] title = new String[]{"支出", "收入"};
         private Fragment[] fragments = new Fragment[]{new OutputFragment(), new
                 InputFragment()};
@@ -67,7 +65,6 @@ public class AddActivity extends AppCompatActivity {
     public void back(View view) {
         finish();
     }
-
 
     //点击添加item
     public void addItem(View view) {

@@ -3,7 +3,6 @@ package com.tonkia;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -43,15 +42,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import me.shaohui.bottomdialog.BottomDialog;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private SpaceNavigationView spaceNavigationView;
     //Fragment
     private FragmentManager fragmentManager;
     private Fragment from;
@@ -59,15 +55,20 @@ public class MainActivity extends AppCompatActivity {
     private DetailFragment detailFragment;
     private SelfFragment selfFragment;
     private TableFragment tableFragment;
+
+    //录音类
     private AudioRecoderUtils mAudiorecoder;
+
+    //监听滑动
     private float mPosY;
     private float mCurPosY;
     private float moveDis = 300;
-    private FloatingActionButton centerBtn;
 
+    //控件
+    private FloatingActionButton centerBtn;
     private ImageView bindBadge;
     private BadgeView badgeView;
-
+    private SpaceNavigationView spaceNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +94,12 @@ public class MainActivity extends AppCompatActivity {
         //只显示ICON
         spaceNavigationView.showIconOnly();
 
+        //录音类初始化
         mAudiorecoder = new AudioRecoderUtils();
         mAudiorecoder.setOnAudioStatusUpdateListener(new MyAudioListener());
+
         //需要先初始化deal的badge
-
-
         bindBadge = findViewById(R.id.badge);
-
         badgeView = BadgeFactory.create(this)
                 .setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setWidthAndHeight(18, 18)
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 .setBadgeCount(0)
                 .setShape(BadgeView.SHAPE_CIRCLE)
                 .bind(bindBadge);
-        freshDeal();
 
+        freshDeal();
     }
 
 
@@ -118,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         spaceNavigationView.onSaveInstanceState(outState);
-
-
     }
 
     private class MySpaceOnClickListener implements SpaceOnClickListener {
@@ -127,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         public void onCentreButtonClick() {
             Intent i = new Intent(MainActivity.this, AddActivity.class);
             startActivityForResult(i, 0);
-
         }
 
         @Override
@@ -177,10 +174,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCentreButtonLongClick() {
             //-----------------------长按开始录音---------------------------
-            if (centerBtn == null)
-                initMoveListener();
+            if (centerBtn == null) {
+                //反射找到中间Button
+                try {
+                    Field field = SpaceNavigationView.class.getDeclaredField("centreButton");
+                    field.setAccessible(true);
+                    centerBtn = (FloatingActionButton) field.get(spaceNavigationView);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
             if (Build.VERSION.SDK_INT > 22) {
-                permissionForM();
+                //先检查权限
+                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            0);
+                } else {
+                    //开始录音菜监听
+                    startAudioRecord();
+                }
             } else {
                 //开始录音菜监听
                 startAudioRecord();
@@ -193,32 +210,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void permissionForM() {
-        //先检查权限
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    0);
-        } else {
-            //开始录音菜监听
-            startAudioRecord();
-        }
+    //录音的界面
+    private TextView tvTime;
+    private TextView tvTip;
+    private VoiceLineView voiceView;
+    BottomDialog bdAudio;
 
-    }
-
-    //反射找到中间Button
-    private void initMoveListener() {
-        try {
-            Field field = SpaceNavigationView.class.getDeclaredField("centreButton");
-            field.setAccessible(true);
-            centerBtn = (FloatingActionButton) field.get(spaceNavigationView);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    private void startAudioRecord() {
+        bdAudio = BottomDialog.create(getSupportFragmentManager());
+        bdAudio.setViewListener(new BottomDialog.ViewListener() {
+            @Override
+            public void bindView(View v) {
+                tvTime = v.findViewById(R.id.tv_time);
+                tvTip = v.findViewById(R.id.tv_tip);
+                voiceView = v.findViewById(R.id.voicLine);
+                //先初始化控件再监听
+                centerBtn.setOnTouchListener(new MyTouchListener());
+            }
+        }).setLayoutRes(R.layout.dialog_record).setDimAmount(0.5f).setCancelOutside(false).setTag("AudioDialog").show();
+        //everything is ok 后再录音
+        mAudiorecoder.startRecord();
     }
 
     //录音MoveTouch监听
@@ -256,74 +267,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private TextView tvTime;
-    private TextView tvTip;
-    private VoiceLineView voiceView;
-    BottomDialog bdAudio;
-
-    private void startAudioRecord() {
-        bdAudio = BottomDialog.create(getSupportFragmentManager());
-        bdAudio.setViewListener(new BottomDialog.ViewListener() {
-            @Override
-            public void bindView(View v) {
-                tvTime = v.findViewById(R.id.tv_time);
-                tvTip = v.findViewById(R.id.tv_tip);
-                voiceView = v.findViewById(R.id.voicLine);
-                //先初始化控件再监听
-                centerBtn.setOnTouchListener(new MyTouchListener());
-            }
-        }).setLayoutRes(R.layout.dialog_record).setDimAmount(0.5f).setCancelOutside(false).setTag("AudioDialog").show();
-        //everything is ok 后再录音
-        mAudiorecoder.startRecord();
-
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //添加record后返回
-        if (resultCode == 1) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            replaceFragment(detailFragment, transaction);
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            detailFragment.setDate(year, month);
-            //致命bug
-            if (tableFragment != null)
-                tableFragment.freshChart();
-            //反射大法好  厉害厉害  哈哈哈哈哈哈哈哈
-            try {
-                Method method = SpaceNavigationView.class.getDeclaredMethod("updateSpaceItems", int.class);
-                method.setAccessible(true);
-                method.invoke(spaceNavigationView, 0);
-                System.out.println(method);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
-//
-//        if (requestCode == 0) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                //授权成功
-//            }
-//            return;
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-
-
+    //AudioRecorder的回调
     class MyAudioListener implements AudioRecoderUtils.OnAudioStatusUpdateListener {
         @Override
         public void onUpdate(double db, long time) {
@@ -342,28 +286,64 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void freshDeal() {
-        List<AudioInfo> mList = LitePal.findAll(AudioInfo.class);
-        Collections.reverse(mList);
-        int count = mList.size();
-        if (count > 0) {
-            setBadge(count);
-        } else {
-            clearBadge();
-        }
+    private void freshDeal() {
+        List<AudioInfo> initList = LitePal.findAll(AudioInfo.class);
+        //录音保存文件成功后要更新badge和DealFragment页面
         if (dealFragment != null) {
-            dealFragment.freshList(mList);
+            dealFragment.freshList(initList);
+        }
+        int count = initList.size();
+        setBadge(count);
+    }
+
+    //dealFragment onResume中调用
+    public void setBadge(int count) {
+        if (count > 0) {
+            badgeView.setVisibility(View.VISIBLE);
+            badgeView.setBadgeCount(count);
+        } else {
+            badgeView.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void clearBadge() {
-        badgeView.setVisibility(View.INVISIBLE);
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //添加record后返回
+        if (resultCode == 1) {
+            //切换到detail页面
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            replaceFragment(detailFragment, transaction);
+            //定位到当前时间
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            detailFragment.setDate(year, month);
+            //反射大法好  厉害厉害  哈哈哈哈哈哈哈哈  Space选择第一个
+            try {
+                Method method = SpaceNavigationView.class.getDeclaredMethod("updateSpaceItems", int.class);
+                method.setAccessible(true);
+                method.invoke(spaceNavigationView, 0);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void setBadge(int count) {
-        //Toast.makeText(this, "Badge" + count, Toast.LENGTH_SHORT).show();
-        badgeView.setVisibility(View.VISIBLE);
-        badgeView.setBadgeCount(count);
-    }
-
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        if (requestCode == 0) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //授权成功
+//            }
+//            return;
+//        }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 }

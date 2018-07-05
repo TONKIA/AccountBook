@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#e62c2c</color>
-    <color name="pressedColor">#333333</color>
+    <color name="pressedColor">#4b4b4b</color>
     <color name="centerBtnClick">#dedede</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#ffffff</color>
@@ -10,6 +10,8 @@
     <color name="pointColor">#263e5c</color>
     <color name="titleColor">#dfdfdf</color>
     <color name="activityColor">#fafafa</color>
-    <color name="cardColor">#eaeaea</color>
-    <color name="cardHeadColor">#cacaca</color>
+    <color name="sideColor">#c7c7c7</color>
+    <color name="cardHeadColor">#696969</color>
+    <color name="colorProgress">#353535</color>
+
 </resources>

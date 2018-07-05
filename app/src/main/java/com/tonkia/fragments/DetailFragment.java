@@ -47,6 +47,8 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
     private TextView tvInput;
     private TextView tvOutput;
     private TextView tvBalance;
+
+    //当前查询时间
     private int year;
     private int month;
     private float input = 0;
@@ -70,11 +72,12 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         tvOutput = view.findViewById(R.id.tv_output);
         tvBalance = view.findViewById(R.id.tv_balance);
 
-
         myAdapter = new MyAdapter();
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         btnChangeDate.setOnClickListener(new MyOnClickListener());
+
+        mDialogYearMonth = new TimePickerDialog.Builder().setTitleStringId("选择时间").setType(Type.YEAR_MONTH).setThemeColor(getResources().getColor(R.color.colorPrimaryDark)).setCallBack(this).build();
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -83,13 +86,11 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         dayContents = new LinkedList<>();
         viewTypes = new LinkedList<>();
 
-
-        mDialogYearMonth = new TimePickerDialog.Builder().setTitleStringId("选择时间").setType(Type.YEAR_MONTH).setThemeColor(getResources().getColor(R.color.colorPrimaryDark)).setCallBack(this).build();
-
         init();
         return view;
     }
 
+    //时间选择器回调
     @Override
     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
         Calendar calendar = Calendar.getInstance();
@@ -97,12 +98,10 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
     }
 
-
     class MyOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             mDialogYearMonth.show(getChildFragmentManager(), "year_month");
-
         }
     }
 
@@ -112,7 +111,6 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         this.month = month;
         init();
     }
-
 
     //初始化 和 刷新
     private void init() {

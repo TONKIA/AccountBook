@@ -25,6 +25,7 @@ import org.litepal.LitePal;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class DealFragment extends Fragment {
     private RecyclerView rv;
     private MyAdapt adapt;
     private AudioPlayUtils audioPlayUtils;
-
     private RoundCornerProgressBar progressBar;
     private int total;
     private TextView tvEmpty;
@@ -51,24 +51,30 @@ public class DealFragment extends Fragment {
         adapt = new MyAdapt();
         rv.setAdapter(adapt);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-
         audioPlayUtils = new AudioPlayUtils();
         audioPlayUtils.setAudioPlayerListener(new MyAudioPlayerListenr());
-        freshList();
+
+        List<AudioInfo> initList = LitePal.findAll(AudioInfo.class);
+        freshList(initList);
         return view;
     }
 
-    private void freshList() {
-        MainActivity activity = (MainActivity) (getActivity());
-        activity.freshDeal();
+    //更新列表
+    public void freshList(List<AudioInfo> initList) {
+        Collections.reverse(initList);
+        this.mList = initList;
+        adapt.notifyDataSetChanged();
+        if (mList.size() > 0) {
+            tvEmpty.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.VISIBLE);
+        }
     }
 
+    //播放回调方法
     private class MyAudioPlayerListenr implements AudioPlayUtils.AudioPlayerListener {
-
         @Override
         public void onError() {
-            System.out.println("*******onError" + progressBar);
-
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -83,7 +89,6 @@ public class DealFragment extends Fragment {
 
         @Override
         public void onComplete() {
-            System.out.println("*******onComplete");
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -111,20 +116,8 @@ public class DealFragment extends Fragment {
         }
     }
 
-    public void freshList(List<AudioInfo> mList) {
-        this.mList = mList;
-        adapt.notifyDataSetChanged();
-        if (mList.size() > 0) {
-            tvEmpty.setVisibility(View.GONE);
-        } else {
-            tvEmpty.setVisibility(View.VISIBLE);
-        }
-
-    }
 
     class MyAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -175,7 +168,10 @@ public class DealFragment extends Fragment {
                             File f = new File(ai.getPath());
                             f.delete();
                             ai.delete();
-                            freshList();
+                            List<AudioInfo> initList = LitePal.findAll(AudioInfo.class);
+                            freshList(initList);
+                            //修改主页的badge
+                            ((MainActivity) getActivity()).setBadge(mList.size());
                         }
                     });
 

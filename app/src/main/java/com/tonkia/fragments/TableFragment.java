@@ -40,7 +40,6 @@ public class TableFragment extends Fragment {
     private int month;
     private int week;
     private int dayOfMonth;
-
     private String[] xTitle = new String[]{"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
 
 
@@ -51,18 +50,18 @@ public class TableFragment extends Fragment {
         weekChart = view.findViewById(R.id.week_chart);
         monthChart = view.findViewById(R.id.month_chart);
         yearChart = view.findViewById(R.id.year_chart);
-
-        freshChart();
         return view;
     }
 
-    public void freshChart() {
+    @Override
+    public void onResume() {
+        System.out.println("onResume....");
+        super.onResume();
         initTime();
         initWeekChart();
         initMonthChart();
         initYearChart();
     }
-
 
     private void initTime() {
         Calendar c = Calendar.getInstance();
@@ -72,13 +71,12 @@ public class TableFragment extends Fragment {
         dayOfMonth = c.getActualMaximum(Calendar.DATE);
     }
 
-    public void initWeekChart() {
-
+    private void initWeekChart() {
         //X轴
         List<AxisValue> xList = new LinkedList<>();
+
         //设置坐标点
         List<PointValue> values = new ArrayList<>();
-
         for (int i = 0; i < 7; i++) {
             List<DealRecord> list = LitePal.where("year=? and week=? and type=? and dayOfWeek=?", "" + year, "" + week, DealItem.OUTPUT + "", "" + (i + 1)).find(DealRecord.class);
             float value = 0;
@@ -95,7 +93,6 @@ public class TableFragment extends Fragment {
             av.setLabel(xTitle[i]);
             xList.add(av);
         }
-
 
         //创建折线
         Line line = new Line(values).setColor(ContextCompat.getColor(getContext(), R.color.lineColor)).setCubic(false);
@@ -129,7 +126,6 @@ public class TableFragment extends Fragment {
         weekChart.setZoomEnabled(false);
         weekChart.setValueSelectionEnabled(true);
     }
-
 
     private void initMonthChart() {
 
@@ -192,8 +188,6 @@ public class TableFragment extends Fragment {
     }
 
     private void initYearChart() {
-
-
         //X轴
         List<AxisValue> xList = new LinkedList<>();
         //设置坐标点
@@ -216,7 +210,6 @@ public class TableFragment extends Fragment {
             av.setLabel((i + 1) < 10 ? "0" + (i + 1) : "" + (i + 1));
             xList.add(av);
         }
-
 
         //创建折线
         Line line = new Line(values).setColor(ContextCompat.getColor(getContext(), R.color.lineColor)).setCubic(false);
