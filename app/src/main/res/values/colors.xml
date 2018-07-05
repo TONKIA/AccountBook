@@ -11,7 +11,8 @@
     <color name="titleColor">#dfdfdf</color>
     <color name="activityColor">#fafafa</color>
     <color name="sideColor">#c7c7c7</color>
-    <color name="cardHeadColor">#696969</color>
-    <color name="colorProgress">#353535</color>
+    <color name="cardHeadColor">#b1b1b1</color>
+    <color name="colorProgress">#404040</color>
+
 
 </resources>

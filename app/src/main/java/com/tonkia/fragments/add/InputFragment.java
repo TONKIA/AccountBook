@@ -1,5 +1,6 @@
 package com.tonkia.fragments.add;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -169,6 +170,11 @@ public class InputFragment extends Fragment {
                         dr.setType(itemList.get(i).getType());
                         dr.initTime();
                         dr.save();
+                        //隐藏弹窗
+                        bd.dismiss();
+                        //隐藏键盘
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                         getActivity().setResult(1);
                         getActivity().finish();
                         //最后应该调转到MainActivity下Detail

@@ -12,15 +12,15 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:rcBackgroundColor="@color/cardHeadColor"
-        app:rcBackgroundPadding="6dp"
+        app:rcBackgroundColor="@color/colorPrimaryDark"
+        app:rcBackgroundPadding="2dp"
         app:rcMax="100"
         app:rcProgress="0"
-        app:rcProgressColor="@color/colorPrimary"
+        app:rcProgressColor="@color/titleColor"
         app:rcRadius="8dp"
         app:rcReverse="false"
         app:rcSecondaryProgress="100"
-        app:rcSecondaryProgressColor="@color/colorProgress" />
+        app:rcSecondaryProgressColor="@color/activityColor" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="XXXXXXXXXXX"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <ImageButton
             android:id="@+id/btn_del"
