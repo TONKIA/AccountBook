@@ -53,7 +53,6 @@ public class DealFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         audioPlayUtils = new AudioPlayUtils();
         audioPlayUtils.setAudioPlayerListener(new MyAudioPlayerListenr());
-
         List<AudioInfo> initList = LitePal.findAll(AudioInfo.class);
         freshList(initList);
         return view;

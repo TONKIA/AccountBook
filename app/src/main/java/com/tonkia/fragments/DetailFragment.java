@@ -118,7 +118,6 @@ public class DetailFragment extends Fragment implements OnDateSetListener {
         dStart.set(year, month, 1, 0, 0, 0);
         Calendar dEnd = Calendar.getInstance();
         dEnd.set(year, month + 1, 1, 0, 0, 0);
-        System.out.println(year + ":" + month + "----" + dStart.get(Calendar.YEAR) + ":" + dStart.get(Calendar.MONTH) + ":" + dStart.get(Calendar.DATE) + "------" + dEnd.get(Calendar.YEAR) + ":" + dEnd.get(Calendar.MONTH) + ":" + dStart.get(Calendar.DATE));
         tvYear.setText(year + "年");
         tvMonth.setText(month + 1 + "月 ▼");
         mList = LitePal.where("time>=? and time<?", "" + dStart.getTime().getTime(), "" + dEnd.getTime().getTime()).find(DealRecord.class);

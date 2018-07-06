@@ -211,7 +211,8 @@
                         android:text="获取验证码"
                         android:textSize="12sp"
                         app:normalBackgroundColor="@color/titleColor"
-                        app:pressedBackgroundColor="@color/titleColor" />
+                        app:pressedBackgroundColor="@color/titleColor"
+                        app:unableBackgroundColor="@color/centerBtnClick" />
                 </LinearLayout>
 
                 <com.tonkia.view.StateButton
@@ -269,7 +270,7 @@
                         android:layout_marginRight="30dp"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="上次备份时间2018-07-04"
+                        android:text=""
                         android:textSize="12sp" />
                 </LinearLayout>
 
